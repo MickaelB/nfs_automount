@@ -203,11 +203,15 @@ function check_remotenfs {
     log "[CRIT] Parameter missing (check_remotenfs); process aborted!"
     exit 1
   fi
-
-  read -t1 < <(${rpcinfocmd} -t ${_remotesystem} nfs 2>&-)
-  if [ $? -eq 0 ]; then
-    _RET=true
-  else
+ping -c 1 ${_remotesystem} &>/dev/null
++ 	 if [ $? -eq 0 ]; then
++   		read -t1 < <(${rpcinfocmd} -t ${_remotesystem} nfs 2>&-)
++ 		 if [ $? -eq 0 ]; then
++    		_RET=true
++ 		 else
++    		_RET=false
++  		fi
+  	else
     _RET=false
   fi
 }
